@@ -12,9 +12,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 public class Frame extends JFrame {
-	
-	
-	
 
 	private JPanel contentPane;
 	private String str = "";
