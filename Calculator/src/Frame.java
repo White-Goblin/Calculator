@@ -15,8 +15,11 @@ public class Frame extends JFrame {
 
 	private JPanel contentPane;
 	private String str = "";
-	private int result;
+	private int lastNum;
+	private int thisNum;
+	private int resultNum;
 	private JTextField textField = new JTextField();
+	private Mather doMath = new Mather();
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -126,29 +129,10 @@ public class Frame extends JFrame {
 	}
 	
 	private void printTestVariables() {
-		System.out.println("Current Result: " + result);
+		System.out.println("Current Result: " + thisNum);
 		System.out.println("Current Building String: " + str);
 	}
-	
-	private void doMath (String operator, int value) {
-		if (operator == "+") {
-			result += value;
-		} else { if (operator == "-") {
-			result -= value;
-			}
-		}
-	}
-	
-	private void doMath (String operator, String value) {
-		if (operator == "+") {
-			result += Integer.parseInt(value);
-		} else { if (operator == "-") {
-			result -= Integer.parseInt(value);
-			}
-		}
-	}
-	
-	
+		
 ////action listeners////
 	
 	public class ButtonActionListener implements ActionListener {
@@ -157,6 +141,7 @@ public class Frame extends JFrame {
 			String strFromButton = (((JButton) e.getSource()).getText());
 			appendString(strFromButton);
 			updateScreen(Integer.parseInt(str));
+			thisNum = Integer.parseInt(str);
 			printTestVariables();
 		}
 	} 
@@ -165,18 +150,26 @@ public class Frame extends JFrame {
 		
 		public void actionPerformed(ActionEvent e) {
 			String operator = (((JButton) e.getSource()).getText());
-			doMath(operator, str);
-			printTestVariables();
-			
+			if (operator.equals("+")) {
+				if (lastNum != 0) resultNum = doMath.add(lastNum, thisNum);
+				updateScreen(resultNum);
+				lastNum = resultNum;
+				str = "";
+			}
+			if (operator.equals("-")) {
+				if (lastNum != 0) resultNum = doMath.subtract(lastNum, thisNum);
+				updateScreen(resultNum);
+				lastNum = resultNum;
+				str = "";
+			}
 		}
 	}
 	
 	public class EqualActionListener implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e) {
-			
-			updateScreen(result);
-			printTestVariables();
+			updateScreen(resultNum);
+
 		}
 	} 
 	
