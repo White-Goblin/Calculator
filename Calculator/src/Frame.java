@@ -82,7 +82,7 @@ public class Frame extends JFrame {
 			addComp(contentPane,  buttonAdd, gC, 2, 4, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
 			addComp(contentPane,  buttonEqual, gC, 0, 5, 4, 1, GridBagConstraints.CENTER, GridBagConstraints.BOTH);
 			
-			((JButton) buttonC).addActionListener(new ButtonActionListener());
+			((JButton) buttonC).addActionListener(new OperatorActionListener());
 			((JButton) button0).addActionListener(new ButtonActionListener());
 			((JButton) button1).addActionListener(new ButtonActionListener());
 			((JButton) button2).addActionListener(new ButtonActionListener());
@@ -114,8 +114,8 @@ public class Frame extends JFrame {
 	
 ////methods////
 	
-	private void appendString (String newStr) {
-		str += newStr;
+	private void appendString (String buttonChar) {
+		str += buttonChar;
 	}
 	
 	private void updateScreen(int num) {
@@ -151,16 +151,23 @@ public class Frame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 			String operator = (((JButton) e.getSource()).getText());
 			if (operator.equals("+")) {
-				if (lastNum != 0) resultNum = doMath.add(lastNum, thisNum);
+				resultNum = doMath.add(lastNum, thisNum);
 				updateScreen(resultNum);
 				lastNum = resultNum;
 				str = "";
 			}
 			if (operator.equals("-")) {
-				if (lastNum != 0) resultNum = doMath.subtract(lastNum, thisNum);
+				resultNum = doMath.subtract(lastNum, thisNum);
 				updateScreen(resultNum);
 				lastNum = resultNum;
 				str = "";
+			}
+			if (operator.equals("C")) {
+				lastNum=0;
+				resultNum=0;
+				thisNum=0;
+				str="";
+				updateScreen(resultNum);
 			}
 		}
 	}
@@ -168,6 +175,7 @@ public class Frame extends JFrame {
 	public class EqualActionListener implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e) {
+			
 			updateScreen(resultNum);
 
 		}
